@@ -1,0 +1,5 @@
+*.gz
+*.pth
+ImageNetV2-matched-frequency/
+images_to_classify/
+testing/
