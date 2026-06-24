@@ -1,6 +1,6 @@
 # IDK Classifier Iterations
 
-### Run the IDK classifier as specified in Ronit's paper. (paper_imagenet_idk_cascade.py)
+## Testing # 1 : Run the IDK classifier as specified in Ronit's paper. (paper_imagenet_idk_cascade.py)
 * This sets up the resnet classifiers in a cascade just like the paper has documented. There is no skipping optimization applied. The images flow from resnet-18, resnet-34 and resnet-152. Here are the results of the run.
 
 <pre>
@@ -11,7 +11,9 @@ Processed by ResNet152:      33.05%
 Total evaluation time: 771.79 seconds
 </pre>
 
-### Run the IDK classifier as specified in Ronit's paper with the Random Forest Classifier. (train_random_forest_regulators.py)
+---
+
+## Testing # 2 : Run the IDK classifier as specified in Ronit's paper with the Random Forest Classifier. (train_random_forest_regulators.py)
 * This sets up the resnet classifiers in a cascade just like the paper has documented. There is a Random Forest skipping optimization applied. The images flow from resnet-18. Based on the RandomForest regulator, the skip of resnet-34 can happen to delegate to  resnet-152. Here are the results of the run.
 
 This code implements a highly efficient machine learning pattern often called **Dynamic Routing** or **Cascading Models**.
@@ -20,7 +22,7 @@ Instead of passing every single image through a massive, computationally expensi
 
 Here is a step-by-step breakdown of how the code actually achieves this.
 
-### 1. Training the "Gatekeepers" (`train_routing_classifiers`)
+### 1. Training the "Random Forest Classifier" (`train_routing_classifiers`)
 
 Before the cascade can run, it needs to know *when* to trust the smaller models. It does this by training **Random Forest Classifiers** to act as gatekeepers.
 
@@ -72,7 +74,9 @@ Skipped to Stage 3 (ResNet152): 14.24%
 Total evaluation time: 429.86 seconds
 </pre>
 
-### Run the IDK classifier as specified in Ronit's paper with the light weight gatekeeper Classifier. (train_gatekeeper_3_classifier.py)
+---
+
+## Testing # 3 : Run the IDK classifier as specified in Ronit's paper with the light weight gatekeeper Classifier. (train_gatekeeper_3_classifier.py)
 * This sets up the resnet classifiers in a cascade just like the paper has documented. There is a gatekeeper skipping optimization applied. The images flow from resnet-18. Based on the gatekeeper regulator, the skip of resnet-34 can happen to delegate to  resnet-152. Here are the results of the run.
 
 This is a well-written script that implements a technique often referred to as **Adaptive Inference** or a **Cascade Classifier**.
@@ -125,7 +129,9 @@ Skipped to ResNet152: 36.98%
 Total evaluation time: 591.07 seconds
 </pre>
 
-### Run the IDK classifier with the light weight gatekeeper Classifier all 5 resnet stages are used. (train_gatekeeper_allresnet.py)
+---
+
+## Testing # 4 : Run the IDK classifier with the light weight gatekeeper Classifier all 5 resnet stages are used. (train_gatekeeper_allresnet.py)
 * This sets up all resnet classifiers in a cascade adding 2 more resnet classifiers than paper has documented. There is a gatekeeper skipping optimization applied. The images flow from resnet-18. Based on the gatekeeper regulator, the skip of higher level classifiers can happen to delegate to  resnet-152. Here are the results of the run.
 
 <pre>
@@ -148,7 +154,9 @@ Stage 5 (resnet152): 2075 images (20.75%)
 Total evaluation time: 2420.42 seconds
 </pre>
 
-### Run the IDK classifier with the optimized light weight gatekeeper Classifier all 5 resnet stages are used. (train_gatekeeper_allresnet_featurepyramid.py)
+---
+
+## Testing # 5 : Run the IDK classifier with the optimized light weight gatekeeper Classifier with features extracted - all 5 resnet stages are used. (train_gatekeeper_allresnet_featurepyramid.py)
 
 This script is a clever implementation of **Cascaded Inference** (also known as "early exiting").
 
@@ -206,3 +214,5 @@ Stage 4 (resnet101): 1143 images (22.86%)
 Stage 5 (resnet152): 770 images (15.40%)
 Total evaluation time: 1247.38 seconds
 </pre>
+
+---
