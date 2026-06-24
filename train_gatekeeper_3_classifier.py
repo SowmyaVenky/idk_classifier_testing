@@ -10,6 +10,7 @@ import torch.nn.functional as F
 import torchvision.models as models
 from sklearn.linear_model import LogisticRegression
 import torchvision.transforms as transforms
+import time
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -129,6 +130,7 @@ class GatekeeperCascade(nn.Module):
 
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     # --- Runtime Execution Loop ---
 
     preprocess = transforms.Compose([
@@ -166,3 +168,5 @@ if __name__ == '__main__':
     print(f"\nGatekeeper Cascade Top-1 Accuracy: {top1_correct / total_samples:.4f}")
     print(f"Skipped to ResNet34:  {gatekeeper_system.s2_count / gatekeeper_system.total_images * 100:.2f}%")
     print(f"Skipped to ResNet152: {gatekeeper_system.s3_count / gatekeeper_system.total_images * 100:.2f}%")
+    end_time = time.perf_counter()
+    print(f"Total evaluation time: {end_time - start_time:.2f} seconds")

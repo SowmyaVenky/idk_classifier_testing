@@ -1,5 +1,6 @@
 *.gz
 *.pth
+.venv
 ImageNetV2-matched-frequency/
 images_to_classify/
 testing/

@@ -12,6 +12,7 @@ from sklearn.ensemble import RandomForestClassifier
 import torch.nn as nn
 import torchvision.transforms as transforms
 from imagenetv2_pytorch import ImageNetV2Dataset
+import time
 
 # Setup device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -128,6 +129,7 @@ class RandomForestResNetCascade(nn.Module):
 
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     # --- Runtime Execution Loop Example ---
 
     # 1. Standard Dataset Setup
@@ -151,7 +153,8 @@ if __name__ == '__main__':
 
     # 3. Build Intelligent Cascade
     cascade_system = RandomForestResNetCascade(rf1, rf2)
-
+    end_time = time.perf_counter()
+    print(f"Total Random Forest Training time: {end_time - start_time:.2f} seconds")
     # 4. Evaluate System
     top1_correct = 0
     total_samples = 0
@@ -169,3 +172,5 @@ if __name__ == '__main__':
     print(f"\nFinal Cascade Top-1 Accuracy: {top1_correct / total_samples:.4f}")
     print(f"Skipped to Stage 2 (ResNet34):  {cascade_system.s2_count / cascade_system.total_images * 100:.2f}%")
     print(f"Skipped to Stage 3 (ResNet152): {cascade_system.s3_count / cascade_system.total_images * 100:.2f}%")
+    end_time = time.perf_counter()
+    print(f"Total evaluation time: {end_time - start_time:.2f} seconds")

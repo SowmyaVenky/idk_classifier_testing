@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import torchvision.models as models
 import torchvision.transforms as transforms
 from imagenetv2_pytorch import ImageNetV2Dataset
+import time
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -72,6 +73,8 @@ class ThreeStageResNetCascade(nn.Module):
             return final_outputs
 
 if __name__ == '__main__':
+    start_time = time.perf_counter()
+
     # Instantiate cascade model
     # t1=0.5 (ResNet18 handles easy), t2=0.85 (ResNet34 handles medium, ResNet152 gets hardest)
     cascade = ThreeStageResNetCascade(t1=0.5, t2=0.85)
@@ -110,3 +113,5 @@ if __name__ == '__main__':
     print(f"Processed by ResNet18 only:  {s1_only / cascade.total_images * 100:.2f}%")
     print(f"Processed by ResNet34:       {s2_only / cascade.total_images * 100:.2f}%")
     print(f"Processed by ResNet152:      {s3_only / cascade.total_images * 100:.2f}%")
+    end_time = time.perf_counter()
+    print(f"Total evaluation time: {end_time - start_time:.2f} seconds")

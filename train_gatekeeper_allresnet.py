@@ -12,6 +12,7 @@ import torchvision.models as models
 import torchvision.transforms as transforms
 from sklearn.linear_model import LogisticRegression
 from imagenetv2_pytorch import ImageNetV2Dataset
+import time
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -97,6 +98,7 @@ class GatekeeperCascade(nn.Module):
 
 # --- Runtime Execution ---
 if __name__ == '__main__':
+    start_time = time.perf_counter()
     preprocess = transforms.Compose([transforms.Resize(256), transforms.CenterCrop(224), transforms.ToTensor(),
                                      transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])])
     dataset = ImageNetV2Dataset(variant="matched-frequency", transform=preprocess)
@@ -106,7 +108,9 @@ if __name__ == '__main__':
     system = GatekeeperCascade(gates)
     
     print("\nCascade deployed. Metrics will track flow through all 5 stages.")
-
+    end_time = time.perf_counter()
+    print(f"Total Gatekeeper Training time with all 5 stages: {end_time - start_time:.2f} seconds")
+                                             
     # 3. Evaluate
     top1_correct = 0
     total_samples = 0
@@ -123,3 +127,5 @@ if __name__ == '__main__':
     # Print accuracy and the new statistics
     print(f"\nGatekeeper Cascade Top-1 Accuracy: {top1_correct / total_samples:.4f}")
     system.print_stats()
+    end_time = time.perf_counter()
+    print(f"Total evaluation time: {end_time - start_time:.2f} seconds")
