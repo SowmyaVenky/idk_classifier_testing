@@ -151,7 +151,8 @@ if __name__ == '__main__':
 
     # 2. Deploy native GPU gatekeeper cascade
     gatekeeper_system = GatekeeperCascade(gate1, gate2)
-
+    end_time = time.perf_counter()
+    print(f"Total training time: {end_time - start_time:.2f} seconds")
     # 3. Evaluate
     top1_correct = 0
     total_samples = 0
